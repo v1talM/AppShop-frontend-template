@@ -1,0 +1,167 @@
+{
+	"index.html": {
+		"resources": [
+			"images/health-icon.png",
+			"images/food-icon.png",
+			"fonts/mui.ttf",
+			"images/tea-icon.png",
+			"images/trip-icon.png",
+			"fonts/iconfont.woff",
+			"images/wine-icon.png",
+			"images/banner1.png",
+			"js/mui.min.js",
+			"css/app.css",
+			"images/oil-icon.png",
+			"images/drink-icon.png",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"images/fresh-icon.png",
+			"images/goods_thumb.jpg",
+			"js/app.js",
+			"category.html",
+			"index_content.html",
+			"user.html",
+			"shopcart.html"
+		],
+		"refer": [
+			"category.html",
+			"index_content.html",
+			"user.html",
+			"shopcart.html",
+			"login.html"
+		]
+	},
+	"category.html": {
+		"resources": [
+			"css/app.css",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/app.js",
+			"css/iconfont.css",
+			"fonts/iconfont.woff",
+			"index_content.html",
+			"js/vue-resource.min.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"index.html",
+			"index_content.html",
+			"category_goods.html"
+		]
+	},
+	"index_content.html": {
+		"resources": [
+			"images/banner1.png",
+			"images/food-icon.png",
+			"images/health-icon.png",
+			"images/oil-icon.png",
+			"images/drink-icon.png",
+			"images/goods_thumb.jpg",
+			"images/tea-icon.png",
+			"images/trip-icon.png",
+			"images/fresh-icon.png",
+			"images/wine-icon.png",
+			"css/app.css",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"fonts/iconfont.woff",
+			"css/iconfont.css",
+			"js/vue-resource.min.js",
+			"js/vue.min.js",
+			"images/banner2.jpg",
+			"images/banner4.jpg",
+			"images/banner3.jpg"
+		],
+		"refer": [
+			"goods_detail.html",
+			"category_goods.html"
+		]
+	},
+	"user.html": {
+		"resources": [
+			"images/food-icon.png",
+			"css/app.css",
+			"js/mui.min.js",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"fonts/mui.ttf",
+			"fonts/iconfont.woff",
+			"js/vue-resource.min.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"login.html",
+			"address.html"
+		]
+	},
+	"goods_detail.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"css/app.css",
+			"js/mui.min.js",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"js/vue-resource.min.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"login.html"
+		]
+	},
+	"category_goods.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/app.css",
+			"css/iconfont.css",
+			"fonts/mui.ttf",
+			"js/vue-resource.min.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"goods_detail.html"
+		]
+	},
+	"shopcart.html": {
+		"resources": [
+			"js/vue-resource.min.js",
+			"js/vue.min.js",
+			"fonts/mui.ttf",
+			"css/app.css",
+			"js/mui.min.js",
+			"css/iconfont.css",
+			"css/mui.min.css"
+		]
+	},
+	"login.html": {
+		"resources": [
+			"css/style.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/app.css",
+			"css/iconfont.css",
+			"fonts/mui.ttf",
+			"user.html",
+			"js/vue-resource.min.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"user.html",
+			"index.html"
+		]
+	},
+	"address.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/vue-resource.min.js",
+			"css/app.css",
+			"js/mui.min.js",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"js/vue.min.js"
+		]
+	}
+}

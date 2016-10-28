@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>购物车</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/app.css" />
+   	<script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div class="mui-content" id="shopcart">
+		<shopcart></shopcart>
+	</div>
+	<script type="text/x-template" id="shopcart-template">
+		<div class="shopcart-panel">
+			<div class="shopcart-header">
+				<div class="mui-row">
+					<div class="mui-col-sm-6 mui-col-xs-6 mui-pull-left">
+						<input type="checkbox" name="" id=""/>
+						全选
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 mui-pull-right mui-text-right">
+						<a href="#">编辑</a>
+					</div>	
+				</div>
+				
+			</div>
+		</div>
+		<ul class="mui-table-view">
+			<li v-for="item in shopcart_items" class="mui-table-view-cell mui-checkbox mui-left mui-media shopcart-list">
+				<input name="checkbox" class="shopcart-input" type="checkbox">
+				<a href="javascript:;" class="shopcart-a">
+		            <img class="mui-media-object mui-pull-left" :src="server + item.goods_thumb">
+		            <div class="mui-media-body">
+		               	<p class="mui-h5" style="height: 1.5em;line-height: 1.5em;">
+		               		<span class="mui-pull-left">{{ item.goods_name }}</span>
+		               		<span class="mui-pull-right text-muted">x{{ item.goods_number }}</span>
+		               	</p> 
+		                <p class="mui-h6 text-orange">￥{{ item.goods_price }}</p>
+		            </div>
+		        </a>
+		        <a class="shopcart-edit">删除</a>
+			</li>
+		</ul>
+		<nav class="mui-bar mui-bar-tab" style="box-shadow: none;">
+	    	<div class="mui-row" style="height: 100%;">
+	    		<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center" style="height: 100%;">
+	    			<span class="goods-number-span mui-h5 mui-text-center text-muted">合计:</span>
+	    			<span class="mui-h5 mui-text-center text-orange">￥255</span>
+	    		</div>
+					
+	    		<div class="mui-col-sm-6 mui-col-xs-6" style="height: 100%;">
+	    			
+	    			<button class="control-btn mui-btn-negative">立即下单</button>
+	    		</div>
+	    	</div>
+	    </nav>
+	
+	
+	
+	</script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			var url = 'http://119.29.5.221/api/shopcart/show';
+			Vue.component('shopcart',{
+				template:"#shopcart-template",
+				data:function(){
+					return {
+						shopcart_items:[],
+						server:'http://119.29.5.221/'
+					}
+				},
+				created:function(){
+					this.$http.get(url,{
+						params:{
+							user_id:plus.storage.getItem('user_id')
+						},
+						headers:{
+							Authorization:'Bearer '+plus.storage.getItem('token')
+						}
+					}).then(function(response){
+						var data = response.data;
+						if(data.status == 200 ){
+							this.shopcart_items = data.data;
+						}
+					},function(xhr){
+						alert(JSON.stringify(xhr))
+					})
+				}
+			})
+			new Vue({
+				el:"#shopcart",
+				
+			})
+		})
+	</script>
+</body>
+</html>

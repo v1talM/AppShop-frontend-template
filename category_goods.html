@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+  	<link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav shop-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title"></h1>
+	</header>
+	
+	<!--下拉刷新容器-->
+	<div id="refreshContainer" class="mui-content mui-scroll-wrapper padding-top">
+	  <div class="mui-scroll">
+	    <!--数据列表-->
+	    <category></category>
+	  </div>
+	  
+	</div>
+		
+	
+	<script type="text/x-template" id="goods-template">
+		<ul class="mui-table-view mui-grid-view category-goods-list">
+	      	<li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in goods_items">
+		        <a @click="show_detail(item.goods_id)">
+	                <img class="mui-media-object" height="100" :src="server + item.goods_thumb">
+	                <div class="mui-media-body ">
+						<h4 class="mui-h4 mui-ellipsis">{{ item.goods_name }}</h4>
+		                <p class='mui-ellipsis goods-prop'>{{ item.goods_brief }}</p>
+		            	<p class="mui-ellipsis text-orange goods-price">￥{{ item.goods_property[0].price }}</p>
+	                </div>
+		        </a>
+		      
+		    </li>
+	    </ul>
+	</script>
+	<script type="text/javascript" charset="UTF-8">
+      	mui.plusReady(function(){
+      		var self = plus.webview.currentWebview();
+      		var category_id = self.category_id;
+      		document.querySelector(".mui-title").innerHTML = self.category_name;
+      		var url ="http://119.29.5.221/app/category/"+category_id+"/goods";
+			var nwaiting = plus.nativeUI.showWaiting();
+			Vue.component('category',{
+				template:'#goods-template',
+				data:function(){
+					return {
+						goods_items:[],
+						server:'http://119.29.5.221/'
+					}
+				},
+				created:function(){
+					this.$http.get(url).then(function(response){
+						var data = response.data.data;
+			    		this.goods_items = data;
+						nwaiting.close();
+					},function(xhr){
+						nwaiting.close();
+						if(xhr.staut > 500){
+			    			plus.nativeUI.toast('啊哦,出现了一些错误');
+			    		}else if(xhr.status > 400){
+			    			plus.nativeUI.toast('客户端异常');
+			    		}else{
+			    			plus.nativeUI.toast('数据加载失败,请检查网络是否正常');
+			    		}
+			    		mui.closeOpened();
+					})
+				},
+				methods:{
+					show_detail:function(id){
+						mui.openWindow({
+							url:'goods_detail.html',
+							id:'goods_detail',
+							extras:{
+								goods_id:id
+							}
+						})
+					}
+				}
+			})
+			var vm = new Vue({
+				el:"#refreshContainer"
+			})
+      	})
+    </script>
+</body>
+</html>

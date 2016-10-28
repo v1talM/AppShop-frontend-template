@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人中心</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/app.css" />
+	<link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css">
+    	body{
+    		background-color: #efeff4;
+    	}
+    </style>
+</head>
+<body>
+	<div class="mui-content" id="userinfo">
+		<userinfo></userinfo>
+	</div>
+	<script type="text/x-template" id="userinfo-template">
+		
+			<div class="avatar-panel">
+				<img class="user-avatar" :src="user_avatar" width="80"/>
+				<p class="user-name mui-text-center" v-if="user_name">{{ user_name }}</p>
+			</div>
+			<div class="slider-control">
+				<div class="mui-row">
+					<div class="mui-col-xs-4 mui-col-sm-4 text-muted mui-text-center">
+						<span class="mui-icon iconfont icon-dingdan"></span>	
+						<div class="mui-media-body">我的订单</div>
+					</div>
+					<div class="mui-col-xs-4 mui-col-sm-4 text-muted mui-text-center">
+						<span class="mui-icon iconfont icon-shoucang1"></span>	
+						<div class="mui-media-body">收    藏</div>
+					</div>
+					<div class="mui-col-xs-4 mui-col-sm-4 text-muted mui-text-center" @click="openAddress()">
+						<span class="mui-icon iconfont icon-ziliao"></span>	
+						<div class="mui-media-body">个人资料</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="mui-slider">
+			  <div class="mui-slider-group">
+			    <!--第一个内容区容器-->
+			    <div class="mui-slider-item">
+			      <!-- 具体内容 -->
+			    </div>
+			    <!--第二个内容区-->
+			    <div class="mui-slider-item">
+			      <!-- 具体内容 -->
+			    </div>
+		  	  </div>
+			</div>
+		
+	
+	</script>
+	<script>
+			mui.init({
+				swipeBack: false
+			});	
+			mui.plusReady(function(){
+				Vue.component('userinfo',{
+					template:'#userinfo-template',
+					created:function(){						
+						//获取本地token
+						var nwaiting = plus.nativeUI.showWaiting();
+						var token = plus.storage.getItem('token');
+						var url = 'http://119.29.5.221/api/user';
+						this.$http.get(url,{
+							headers:{
+								'Authorization':'Bearer '+token,
+								'Accept':'application/json'
+							}
+						}).then(function(response){
+							nwaiting.close();
+							var data = response.body;
+							//保存用户信息到本地
+							plus.storage.setItem('user_no',''+data.user.id+'');
+							plus.storage.setItem('user_name',data.user.name);
+							plus.storage.setItem('user_avatar','http://119.29.5.221/images/'+data.user.avatar);
+							this.user_name = data.user.name;
+							this.user_id = data.user.id;
+							this.user_avatar = 'http://119.29.5.221/images/'+data.user.avatar;
+						},function(xhr){
+							nwaiting.close();
+		      				if(xhr.staut > 500){
+				    			plus.nativeUI.toast('啊哦,出现了一些错误');
+				    		}else if(xhr.status >=400 ){
+								plus.storage.clear();
+								plus.webview.hide('user');
+								plus.nativeUI.toast('用户信息失效,请重新登录');
+								mui.openWindow({
+									url:'login.html',
+									id:'login'
+								})
+							}else{
+				    			plus.nativeUI.toast('数据加载失败,请检查网络是否正常');
+				    		}
+			    			mui.closeOpened();
+							
+						})
+					},
+					data:function(){
+						return {
+							server:'http://119.29.5.221/images',
+							user_id:plus.storage.getItem('user_id'),
+							user_name:plus.storage.getItem('user_name'),
+							user_avatar:plus.storage.getItem('user_avatar')
+						}
+					},
+					methods:{
+						openAddress:function(){
+							mui.openWindow({
+								url:'address.html',
+								id:'address'
+							})
+						}
+					}
+				})
+				var vm = new Vue({
+					el:'#userinfo',
+					
+				})	
+			})
+			
+	</script>
+</body>
+</html>

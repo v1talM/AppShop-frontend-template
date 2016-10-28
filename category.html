@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="UTF-8">
+		mui.plusReady(function(){
+			var url ="http://119.29.5.221/app/category";
+			var nwaiting = plus.nativeUI.showWaiting();
+			Vue.component('category',{
+				template:'#category-template',
+				data:function(){
+					return {
+						items:[]
+					}
+				},
+	    		created:function(){
+	    			this.$http.get(url).then(function(response){
+	    				//document.write(JSON.stringify(response.data.data))
+			    		this.items = response.data.data;
+			    		nwaiting.close();
+			    		//document.write(JSON.stringify(this.items))
+			    	},function(xhr,type,error){
+			    		nwaiting.close();
+	      				if(xhr.staut > 500){
+			    			plus.nativeUI.toast('啊哦,出现了一些错误');
+			    		}else if(xhr.status > 400){
+			    			plus.nativeUI.toast('客户端异常');
+			    		}else{
+			    			plus.nativeUI.toast('数据加载失败,请检查网络是否正常');
+			    		}
+			    		mui.closeOpened();
+			    	})
+	    		},
+	    		methods:{
+	    			getCategoryGoods:function(id,name){
+	    				mui.openWindow({
+	    					url:'category_goods.html',
+	    					id:'category_goods',
+	    					extras:{
+						        category_id:id,
+						        category_name:name
+						    }
+	    				})
+	    			}
+	    		}
+				
+			})
+	    	var vm = new Vue({
+	    		el:"#category",
+			});	
+		})
+
+    </script>
+
+</head>
+<body>
+	
+	<div class="mui-content" id="category">
+		<category></category>
+	</div>
+	
+	<script type="text/x-template" id="category-template">
+		<ul class="mui-table-view mui-table-view-chevron shop-category-list">
+			
+			<li class="mui-table-view-cell mui-collapse" v-for="list in items"><a class="mui-navigate-right" id="{{ list.id }}">{{ list.name }}</a>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" v-for="sub in list.sub_category">
+						<a class="mui-navigate-right" id="{{ sub.id }}" @click="getCategoryGoods(sub.id,sub.name)">{{ sub.name }}</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</script>
+	
+</body>
+</html>

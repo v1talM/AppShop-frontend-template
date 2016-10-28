@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div class="mui-content" id="index-content">
+	  
+	    <div class="mui-slider shop-slider">
+		  <div class="mui-slider-group mui-slider-loop">
+		    <!--支持循环，需要重复图片节点-->
+		    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="images/banner1.png" /></a></div>
+		    <div class="mui-slider-item">
+		    	<a href="#"><img src="images/banner1.png" /></a>
+		    </div>
+		    <div class="mui-slider-item">
+		    	<a href="#"><img src="images/banner2.jpg" /></a>
+		    </div>
+		    <div class="mui-slider-item">
+		    	<a href="#"><img src="images/banner3.jpg" /></a>
+		    </div>
+		    <div class="mui-slider-item">
+		    	<a href="#"><img src="images/banner4.jpg" /></a>
+		    </div>
+		    <!--支持循环，需要重复图片节点-->
+		    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="images/banner1.png" /></a></div>
+		  	</div>
+	  	</div>
+		
+		<div class="mui-card shop-card">
+		    <ul class="mui-table-view mui-grid-view mui-grid-9">
+		        <li @click="openCate(1)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+		                <img src="images/tea-icon.png" width="50"/>
+		                <div class="mui-media-body">精选茗茶</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(2)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+		            	<img src="images/oil-icon.png" width="50"/>
+		                <div class="mui-media-body">安全粮油</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(3)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/health-icon.png" width="50"/>	
+		                <div class="mui-media-body">营养保健</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(4)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/fresh-icon.png" width="50"/>
+		                <div class="mui-media-body">天然干货</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(5)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/drink-icon.png" width="50"/>
+		                <div class="mui-media-body">零食饮料</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(6)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/food-icon.png" width="50"/>
+		                <div class="mui-media-body">生鲜食品</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(7)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/trip-icon.png" width="50"/>
+		                <div class="mui-media-body">游  玩</div>
+		            </a>
+		        </li>
+		        <li @click="openCate(8)" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+		            <a href="#">
+						<img src="images/wine-icon.png" width="50"/>
+		                <div class="mui-media-body">酒  水</div>
+		            </a>
+		        </li>
+		    </ul>
+		</div>
+
+		<main></main>
+		
+	</div>
+	    
+		
+	
+	<script type="text/x-template" id="main-template">
+		<!-- 限时抢购标题 -->
+		<div class="content-block-title">
+			<span class="mui-icon iconfont icon-xianshipeisong"></span>
+			<span>每日推荐</span>
+		    <span class="mui-action-back mui-icon  mui-pull-right"></span>
+		</div>
+		<!-- 限时抢购内容区 -->
+		<div class="mui-row">
+			
+			<div class="mui-col-sm-4 mui-col-xs-4" v-for="time_item in time_items">
+				<div class="mui-card shop-goods-card" :goods-id="time_item.goods_id" @click="show_detail(time_item.goods_id)">
+				
+					<!--内容区-->
+					<div class="mui-card-content">
+						<img :src="server + time_item.goods_thumb"/>
+					</div>
+					<!--页脚，放置补充信息或支持的操作-->
+					<div class="mui-card-footer">
+						<h5 class="mui-h5 goods-titile mui-ellipsis">{{ time_item.goods_name }}</h5>
+						<div class="mui-popup-text">
+							<span class="mui-h6 mui-ellipsis goods-prop text-orange">{{ time_item.goods_brief }}</span>
+							<span class="mui-h6 text-orange">￥{{ time_item.goods_property[0].price }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<!-- 特色专区标题 -->
+		<div class="content-block-title">
+			<span class="mui-icon iconfont icon-feature"></span>
+			<span>特色专区</span>
+		    <span class="mui-action-back mui-icon  mui-pull-right"></span>
+		</div>
+		<!-- 特色专区内容区 -->
+		<div class="mui-row">
+			<div class="mui-col-sm-4 mui-col-xs-4" v-for="feature_item in feature_items">
+				<div class="mui-card shop-goods-card" :goods-id="feature_item.goods_id" @click="show_detail(feature_item.goods_id)">
+				
+					<!--内容区-->
+					<div class="mui-card-content">
+						<img :src="server + feature_item.goods_thumb"/>
+					</div>
+					<!--页脚，放置补充信息或支持的操作-->
+					<div class="mui-card-footer">
+						<h5 class="mui-h5 goods-titile mui-ellipsis">{{ feature_item.goods_name }}</h5>
+						<div class="mui-popup-text">
+							<span class="mui-h6 mui-ellipsis goods-prop text-orange">{{ feature_item.goods_brief }}</span>
+							<span class="mui-h6 text-orange">￥{{ feature_item.goods_property[0].price }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+		</div>
+		<!-- 热销商品标题 -->
+		<div class="content-block-title">
+			<span class="mui-icon iconfont icon-baojifuben2"></span>
+			<span>热销</span>
+		    <span class="mui-action-back mui-icon  mui-pull-right"></span>
+		</div>
+		<!-- 热销商品内容区 -->		
+		<div id="hot-goods-list">
+			<ul class="mui-table-view hot-goods-list">
+			    <li class="mui-table-view-cell mui-media" v-for="hot_item in hot_items">
+			        <a href="javascript:;" :goods-id="hot_item.goods_id" @click="show_detail(hot_item.goods_id)">
+			            <img class="mui-media-object mui-pull-left" :src="server + hot_item.goods_thumb">
+			            <div class="mui-media-body mui-i">
+		                	{{ hot_item.goods_name }}
+			                <p class='mui-ellipsis goods-prop'>{{ hot_item.goods_brief }}</p>
+			            	<p class="mui-ellipsis text-orange goods-price">￥{{ hot_item.goods_property[0].price }}</p>
+			            </div>
+			        </a>
+			    </li>
+			</ul>
+		</div>			
+	</script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			//获得slider插件对象
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+			  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+			});
+			Vue.component('main',{
+				template:"#main-template",
+				data:function(){
+					return {
+						server:"http://119.29.5.221/",
+						time_items:[],
+						feature_items:[],
+						hot_items:[]
+					}
+				},
+				methods:{
+					show_detail:function(id){
+						mui.openWindow({
+							url:'goods_detail.html',
+							id:'goods_detail',
+							extras:{
+						        goods_id:id
+						    }
+						})
+					}
+					
+				},
+				created:function(){
+					var nwaiting = plus.nativeUI.showWaiting();
+					var url = "http://119.29.5.221/app/home";
+					this.$http.get(url).then(function(response){ 
+						var data = response.data;
+	    				//document.write(JSON.stringify(response.data.data))
+			    		this.time_items = data.qg_data;
+			    		this.feature_items = data.feature_data;
+			    		this.hot_items = data.hot_data;
+						nwaiting.close();
+					}, function(xhr){ 
+						nwaiting.close();
+						if(xhr.staut > 500){
+			    			plus.nativeUI.toast('啊哦,出现了一些错误');
+			    		}else if(xhr.status > 400){
+			    			plus.nativeUI.toast('客户端异常');
+			    		}else{
+			    			plus.nativeUI.toast('数据加载失败,请检查网络是否正常');
+			    		}
+			    		mui.closeOpened();
+					})
+				}
+			});
+			var vi = new Vue({
+				el:"#index-content",
+				methods:{
+					openCate:function(id){
+						var e = this.$event.currentTarget;
+						switch(id){
+							case 1 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:1,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 2 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:2,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 3 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:3,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 4 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:4,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 5 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:5,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 6 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:6,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 7 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:7,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							case 8 :{
+								mui.openWindow({
+									url:'category_goods.html',
+									id:'category_goods',
+									extras:{
+										category_id:8,
+										category_name:e.querySelector('.mui-media-body').innerHTML
+									}
+								})
+							};break;
+							
+						}
+					}
+				}
+			})
+
+		})
+	</script>
+</body>
+</html>
